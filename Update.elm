@@ -50,10 +50,19 @@ applyGravity delta game planet =
   List.foldr (applyGravityToTarget delta) planet game.planets
 
 applyGravityToTarget delta source target =
-  if source == target then
+  if source == target || (target.vx == 0 && target.vy == 0) then
      target
   else
-    { target | vx = target.vx - 1 }
+    { target |
+      vx = target.vx + 10 * ((directionToPlanet source target) |> degrees |> sin) * delta,
+      vy = target.vy - 10 * ((directionToPlanet source target) |> degrees |> cos) * delta
+    }
+
+directionToPlanet source target =
+  let
+    temp = (360 - (180 / pi) * (atan2 target.x target.y)) |> round
+  in
+    (temp % 360) |> toFloat
 
 addStars game starData =
   let
