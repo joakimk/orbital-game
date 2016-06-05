@@ -1,4 +1,4 @@
-import Color exposing (grayscale)
+import Color exposing (rgb, grayscale)
 import Element exposing (toHtml)
 import Collage exposing (collage, rect, oval, move, filled, group)
 import Html.App
@@ -29,10 +29,25 @@ drawStar game star =
   let
     scalingFactorX = game.window.width // 100
     scalingFactorY = game.window.height // 100
+    baseColor = floor (star.luminosity * 255)
+    color = rgb (redStarColor star baseColor) baseColor (blueStarColor star baseColor)
   in
-    oval 2 2
-    |> filled (grayscale 0)
+    oval star.size star.size
+    |> filled color
     |> moveTopLeft game (star.x * scalingFactorX, star.y * scalingFactorY)
+
+-- What I tried to do here was to have warm stars be blue, and less warm stars only more red to get a good mix of both
+blueStarColor star baseColor =
+  if star.warmth < 0.5 then
+    baseColor
+  else
+    max ((toFloat baseColor) + (star.warmth * (toFloat 50))) (toFloat 255) |> floor
+
+redStarColor star baseColor =
+  if star.warmth > 0.5 then
+    baseColor
+  else
+    max ((toFloat baseColor) + ((star.warmth * 2) * (toFloat 255))) (toFloat 255) |> floor
 
 moveTopLeft game (x, y) form =
   let
@@ -40,8 +55,7 @@ moveTopLeft game (x, y) form =
     windowY = y - game.window.height // 2
   in
     form
-    |> move (toFloat windowX, toFloat windowY)
-
+    |> move (toFloat windowX, toFloat -windowY)
 
 update msg game =
   let
@@ -51,19 +65,19 @@ update msg game =
     case msg of
       WindowResize size ->
         ({ game | window = size }, Cmd.none)
-      RandomPositions positions ->
-        (addStars game positions, Cmd.none)
+      RandomStarData starData ->
+        (addStars game starData, Cmd.none)
       _ ->
         (game, Cmd.none)
 
-addStars game positions =
+addStars game starData =
   let
-    stars = positions |> List.map buildStar
+    stars = starData |> List.map buildStar
   in
     { game | stars = stars }
 
-buildStar (x, y) =
-  { x = x, y = y }
+buildStar ((x, y), (size, luminosity, warmth)) =
+  { x = x, y = y, size = size, luminosity = luminosity, warmth = warmth }
 
 -- MODEL
 
@@ -83,6 +97,9 @@ type alias Game =
 type alias Star =
   { x : Int
   , y : Int
+  , size : Float
+  , luminosity : Float
+  , warmth : Float
   }
 
 type alias Planet =
@@ -95,7 +112,7 @@ type alias Planet =
 type Msg = Keypress Keyboard.KeyCode
          --| TimeUpdate Float
          | WindowResize Window.Size
-         | RandomPositions (List (Int, Int))
+         | RandomStarData (List ((Int, Int), (Float, Float, Float)))
 
 main : Program Never
 main =
@@ -108,13 +125,16 @@ main =
 
 initialCommand =
   [ (Task.perform WindowResize WindowResize (Window.size))
-  , (Random.generate RandomPositions randomIntPairs)
+  , (Random.generate RandomStarData randomIntPairs)
   ]
   |> Cmd.batch
 
-randomIntPairs : Random.Generator (List (Int, Int))
+randomIntPairs : Random.Generator (List ((Int, Int), (Float, Float, Float)))
 randomIntPairs =
-  Random.list 100 <| Random.pair (Random.int 0 100) (Random.int 0 100)
+  Random.list 300 <|
+    Random.pair
+      (Random.pair (Random.int 0 100) (Random.int 0 100))
+      (Random.map3 (,,) (Random.float 1 3) (Random.float 0.5 1) (Random.float 0.1 1))
 
 subscriptions : a -> Sub Msg
 subscriptions _ =
