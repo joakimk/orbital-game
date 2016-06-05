@@ -1,6 +1,6 @@
 import Color exposing (grayscale)
 import Element exposing (toHtml)
-import Collage exposing (collage, rect, filled)
+import Collage exposing (collage, rect, oval, move, filled, group)
 import Html.App
 import Html exposing (Html)
 import Time exposing (Time, inSeconds)
@@ -13,12 +13,35 @@ view : Game -> Html Msg
 view game =
   collage game.window.width game.window.height [
     drawBackground game
+  , drawStars game
   ]
   |> toHtml
 
 drawBackground game =
   rect (toFloat game.window.width) (toFloat game.window.height)
-  |> filled (grayscale 0.9)
+  |> filled (grayscale 1)
+
+drawStars game =
+  List.map (drawStar game) game.stars
+  |> group
+
+drawStar game star =
+  let
+    scalingFactorX = game.window.width // 100
+    scalingFactorY = game.window.height // 100
+  in
+    oval 2 2
+    |> filled (grayscale 0)
+    |> moveTopLeft game (star.x * scalingFactorX, star.y * scalingFactorY)
+
+moveTopLeft game (x, y) form =
+  let
+    windowX = x - game.window.width // 2
+    windowY = y - game.window.height // 2
+  in
+    form
+    |> move (toFloat windowX, toFloat windowY)
+
 
 update msg game =
   let
@@ -91,7 +114,7 @@ initialCommand =
 
 randomIntPairs : Random.Generator (List (Int, Int))
 randomIntPairs =
-  Random.list 10 <| Random.pair (Random.int 0 100) (Random.int 0 100)
+  Random.list 100 <| Random.pair (Random.int 0 100) (Random.int 0 100)
 
 subscriptions : a -> Sub Msg
 subscriptions _ =
