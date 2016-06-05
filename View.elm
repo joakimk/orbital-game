@@ -29,5 +29,3 @@ drawPlanet game planet =
     image size size ("textures/" ++ planet.texture ++ ".png")
     |> toForm
     |> move (planet.x, planet.y)
-
-

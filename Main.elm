@@ -37,7 +37,9 @@ randomIntPairs =
 subscriptions : a -> Sub Msg
 subscriptions _ =
   [ (Keyboard.presses Keypress)
-  --, (Time.every (Time.millisecond * 250) TimeUpdate)
+  , (Time.every (Time.millisecond * (1000/fps)) TimeUpdate)
   , (Window.resizes WindowResize)
   ]
   |> Sub.batch
+
+fps = 60
