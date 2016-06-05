@@ -27,8 +27,8 @@ drawStars game =
 
 drawStar game star =
   let
-    scalingFactorX = game.window.width // 100
-    scalingFactorY = game.window.height // 100
+    scalingFactorX = (toFloat game.window.width) / 100
+    scalingFactorY = (toFloat game.window.height) / 100
     baseColor = floor (star.luminosity * 255)
     color = rgb (redStarColor star baseColor) baseColor (blueStarColor star baseColor)
   in
@@ -51,11 +51,11 @@ redStarColor star baseColor =
 
 moveTopLeft game (x, y) form =
   let
-    windowX = x - game.window.width // 2
-    windowY = y - game.window.height // 2
+    windowX = x - (toFloat game.window.width) / 2
+    windowY = y - (toFloat game.window.height) / 2
   in
     form
-    |> move (toFloat windowX, toFloat -windowY)
+    |> move (windowX, -windowY)
 
 update msg game =
   let
@@ -95,8 +95,8 @@ type alias Game =
   }
 
 type alias Star =
-  { x : Int
-  , y : Int
+  { x : Float
+  , y : Float
   , size : Float
   , luminosity : Float
   , warmth : Float
@@ -112,7 +112,7 @@ type alias Planet =
 type Msg = Keypress Keyboard.KeyCode
          --| TimeUpdate Float
          | WindowResize Window.Size
-         | RandomStarData (List ((Int, Int), (Float, Float, Float)))
+         | RandomStarData (List ((Float, Float), (Float, Float, Float)))
 
 main : Program Never
 main =
@@ -129,11 +129,11 @@ initialCommand =
   ]
   |> Cmd.batch
 
-randomIntPairs : Random.Generator (List ((Int, Int), (Float, Float, Float)))
+randomIntPairs : Random.Generator (List ((Float, Float), (Float, Float, Float)))
 randomIntPairs =
   Random.list 300 <|
     Random.pair
-      (Random.pair (Random.int 0 100) (Random.int 0 100))
+      (Random.pair (Random.float 0 100) (Random.float 0 100))
       (Random.map3 (,,) (Random.float 1 3) (Random.float 0.5 1) (Random.float 0.1 1))
 
 subscriptions : a -> Sub Msg
