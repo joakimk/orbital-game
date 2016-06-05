@@ -54,15 +54,26 @@ applyGravityToTarget delta source target =
      target
   else
     { target |
-      vx = target.vx + 10 * ((directionToPlanet source target) |> degrees |> sin) * delta,
-      vy = target.vy - 10 * ((directionToPlanet source target) |> degrees |> cos) * delta
+      vx = target.vx + 900000 * ((directionToPlanet source target) |> degrees |> sin) * delta * source.gravity * (gravityDistance source target),
+      vy = target.vy - 900000 * ((directionToPlanet source target) |> degrees |> cos) * delta * source.gravity * (gravityDistance source target)
     }
+
+gravityDistance source target =
+  let
+    xd = (source.x - target.x)
+    yd = (source.y - target.y)
+    distance = (sqrt (xd*xd + yd*yd))
+  in
+    if distance == 0 then
+       1
+    else
+      1 / (distance * distance)
 
 directionToPlanet source target =
   let
-    temp = (360 - (180 / pi) * (atan2 target.x target.y)) |> round
+    radians = atan2 (source.x - target.x) (target.y - source.y)
   in
-    (temp % 360) |> toFloat
+    (radians * 180) / pi
 
 addStars game starData =
   let
