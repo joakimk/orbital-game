@@ -4,21 +4,22 @@ import Collage exposing (oval, filled, group)
 import Color exposing (rgb)
 
 import Move exposing (moveTopLeft)
+import LazyForm exposing (lazyForm)
 
-drawStars game =
-  List.map (drawStar game) game.stars
+drawStars (window, stars) =
+  List.map (drawStar window) stars
   |> group
 
-drawStar game star =
+drawStar window star =
   let
-    scalingFactorX = (toFloat game.window.width) / 100
-    scalingFactorY = (toFloat game.window.height) / 100
+    scalingFactorX = (toFloat window.width) / 100
+    scalingFactorY = (toFloat window.height) / 100
     baseColor = floor (star.luminosity * 255)
     color = rgb (redStarColor star baseColor) baseColor (blueStarColor star baseColor)
   in
     oval star.size star.size
     |> filled color
-    |> moveTopLeft game (star.x * scalingFactorX, star.y * scalingFactorY)
+    |> moveTopLeft window (star.x * scalingFactorX, star.y * scalingFactorY)
 
 -- What I tried to do here was to have warm stars be blue, and less warm stars only more red to get a good mix of both
 blueStarColor star baseColor =
