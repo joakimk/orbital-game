@@ -4,7 +4,7 @@ import Window
 import Keyboard
 
 type Msg = Keypress Keyboard.KeyCode
-         | TimeUpdate Float
+         | TimeDiffSinceLastFrame Float
          | WindowResize Window.Size
          | RandomStarData (List ((Float, Float), (Float, Float, Float)))
 
@@ -17,16 +17,16 @@ update msg game =
     case msg of
       WindowResize size ->
         ({ game | window = size }, Cmd.none)
-      TimeUpdate time ->
-        (updateGameState game, Cmd.none)
+      TimeDiffSinceLastFrame frameTimeDiff ->
+        (updateGameState game frameTimeDiff, Cmd.none)
       RandomStarData starData ->
         (addStars game starData, Cmd.none)
       _ ->
         (game, Cmd.none)
 
-updateGameState game =
+updateGameState game frameTimeDiff =
   let
-    delta = 1/60 -- todo: calculate this, or find where it got hidden in 0.17
+    delta = 1 / (1000 / frameTimeDiff)
   in
     game
     |> applyVelocityToPlanets delta

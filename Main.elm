@@ -5,6 +5,7 @@ import Task
 import Random
 import Keyboard
 import Window
+import AnimationFrame
 
 import View exposing (view)
 import Update exposing (..)
@@ -37,7 +38,7 @@ randomIntPairs =
 subscriptions : a -> Sub Msg
 subscriptions _ =
   [ (Keyboard.presses Keypress)
-  , (Time.every (Time.millisecond * (1000/fps)) TimeUpdate)
+  , (AnimationFrame.diffs TimeDiffSinceLastFrame)
   , (Window.resizes WindowResize)
   ]
   |> Sub.batch
