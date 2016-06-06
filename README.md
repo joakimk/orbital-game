@@ -4,7 +4,8 @@ The initial version was made on my flight home from #socratesUK 2016.
 
 ## Live demo
 
-[Demo](https://dl.dropboxusercontent.com/u/136929/orbital-simulation/index.html)
+- [Mostly balanced system](https://dl.dropboxusercontent.com/u/136929/orbital-simulation/index.html)
+- [Unbalanced system](https://dl.dropboxusercontent.com/u/136929/orbital-simulation/index-unbalanced.html)
 
 ## Screenshot
 
