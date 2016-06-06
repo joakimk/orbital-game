@@ -15,6 +15,17 @@ Get Elm 0.17, then:
 
 And visit <http://localhost:8000/Main.elm>.
 
+## TODO
+
+If I get around to it I'd like to...
+
+* [ ] Rewrite rendering in WebGL to reduce CPU usage
+* [ ] Improve orbital physics
+* [ ] Get orbits to work when more planets have gravity
+* [ ] Add a sun
+* [ ] Orient the planets toward the sun at all times so that the textures match
+* [ ] Add some kind of game-play element. The idea was some kind of game where you have to figure out orbital paths when shooting to hit an object.
+
 ## Credits
 
 Textures are from "planets16.zip", CC-BY-SA licence by Viktor.Hahn@web.de. Comes from http://opengameart.org/content/16-planet-sprites.
