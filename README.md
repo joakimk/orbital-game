@@ -2,6 +2,10 @@ Not really a game, more of a unrealistic orbit-simulator made in Elm.
 
 The initial version was made on my flight home from #socratesUK 2016.
 
+## Live demo
+
+[Demo](https://dl.dropboxusercontent.com/u/136929/orbital-simulation/index.html)
+
 ## Screenshot
 
 ![](https://s3.amazonaws.com/f.cl.ly/items/182v0w1x0i090b1W3a1y/orbital-game.png?v=fa29a743)
