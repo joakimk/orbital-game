@@ -51,7 +51,7 @@ applyGravity delta game planet =
   List.foldr (applyGravityToTarget delta) planet game.planets
 
 applyGravityToTarget delta source target =
-  if (source.x == target.x && source.y == target.y) || (target.vx == 0 && target.vy == 0) then
+  if (source.x == target.x && source.y == target.y) || (target.x == 0 && target.y == 0) then
      target
   else
     { target |
