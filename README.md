@@ -22,7 +22,7 @@ And visit <http://localhost:8000/Main.elm>.
 
 ## How to release
 
-This will create a "index.html" containing all the needed javascript. You also need the images in `textures/`.`
+This will create a "index.html" containing all the needed javascript. You also need the images in `textures/`.
 
     elm make Main.elm
 
