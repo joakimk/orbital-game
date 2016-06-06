@@ -24,7 +24,7 @@ And visit <http://localhost:8000/Main.elm>.
 
 This will create a "index.html" containing all the needed javascript. You also need the images in `textures/`.`
 
-   elm make Main.elm
+    elm make Main.elm
 
 ## TODO
 
