@@ -1,6 +1,6 @@
 module View exposing (view)
 
-import Collage exposing (collage, rect, filled, group, toForm, move)
+import Collage exposing (collage, rect, filled, group, toForm, move, rotate)
 import Element exposing (toHtml, image)
 import Color exposing (grayscale)
 
@@ -29,4 +29,5 @@ drawPlanet planet =
   in
     image size size ("textures/" ++ planet.texture ++ ".png")
     |> toForm
+    |> rotate planet.rotation
     |> move (planet.x, planet.y)
