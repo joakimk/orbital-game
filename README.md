@@ -1,6 +1,6 @@
 Not really a game, more of a unrealistic orbit-simulator made in Elm.
 
-Made on my flight home from #socratesUK 2016.
+The initial version was made on my flight home from #socratesUK 2016.
 
 ## Screenshot
 
