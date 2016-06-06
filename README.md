@@ -19,11 +19,11 @@ And visit <http://localhost:8000/Main.elm>.
 
 If I get around to it I'd like to...
 
+* [ ] Get orbits to work when more planets have gravity
 * [ ] Rewrite rendering in WebGL to reduce CPU usage
 * [ ] Improve orbital physics
-* [ ] Get orbits to work when more planets have gravity
 * [ ] Add a sun
-* [ ] Orient the planets toward the sun at all times so that the textures match
+* [x] Orient the planets toward the sun at all times so that the textures match
 * [ ] Add some kind of game-play element. The idea was some kind of game where you have to figure out orbital paths when shooting to hit an object.
 
 ## Credits

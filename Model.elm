@@ -5,10 +5,10 @@ import Window
 initialGame : Game
 initialGame =
   { planets = [
-      { x = 0, y = 0, size = 300, vx = 0, vy = 0, gravity = 1, texture = "planet_18", rotation = 0 }
-    , { x = 350, y = 0, size = 100, vx = 0, vy = -50, gravity = 0.2, texture = "planet_20", rotation = 1.5 }
-    , { x = 430, y = -30, size = 20, vx = -20, vy = -90, gravity = 0, texture = "planet_20", rotation = 1.7 }
-    , { x = -320, y = -150, size = 10, vx = 25, vy = -50, gravity = 0, texture = "planet_28", rotation = 0 }
+      { x = 0, y = 0, size = 300, vx = 0, vy = 0, gravity = 1, texture = "planet_18", rotation = 0, textureRotation = -1.2 }
+    , { x = 350, y = 0, size = 100, vx = 0, vy = -50, gravity = 0.2, texture = "planet_20", rotation = 0, textureRotation = 0.6 }
+    , { x = 430, y = -30, size = 20, vx = -20, vy = -90, gravity = 0, texture = "planet_20", rotation = 0, textureRotation = 0.6 }
+    , { x = -320, y = -150, size = 10, vx = 25, vy = -50, gravity = 0, texture = "planet_28", rotation = 0, textureRotation = -1.2 }
     ]
   , stars = []
   , window = { width = 0, height = 0 }
@@ -36,5 +36,6 @@ type alias Planet =
   , size : Float
   , gravity : Float
   , texture : String
+  , textureRotation : Float
   , rotation : Float
   }

@@ -31,6 +31,7 @@ updateGameState game frameTimeDiff =
     game
     |> applyVelocityToPlanets delta
     |> applyGravityToPlanets delta
+    |> rotatePlanetsTowardSun
 
 applyVelocityToPlanets delta game =
   let
@@ -54,9 +55,18 @@ applyGravityToTarget delta source target =
      target
   else
     { target |
-      vx = target.vx + 900000 * ((directionToPlanet source target) |> degrees |> sin) * delta * source.gravity * (gravityDistance source target),
-      vy = target.vy - 900000 * ((directionToPlanet source target) |> degrees |> cos) * delta * source.gravity * (gravityDistance source target)
+      vx = target.vx + 900000 * ((directionFromSourceToTarget source target) |> degrees |> sin) * delta * source.gravity * (gravityDistance source target),
+      vy = target.vy - 900000 * ((directionFromSourceToTarget source target) |> degrees |> cos) * delta * source.gravity * (gravityDistance source target)
     }
+
+rotatePlanetsTowardSun game =
+  let
+    planets = List.map (rotatePlanetTowardSun game) game.planets
+  in
+    { game | planets = planets }
+
+rotatePlanetTowardSun game planet =
+  { planet | rotation = (directionToSun planet |> degrees) }
 
 gravityDistance source target =
   let
@@ -69,11 +79,14 @@ gravityDistance source target =
     else
       1 / (distance * distance)
 
-directionToPlanet source target =
+directionFromSourceToTarget source target =
   let
     radians = atan2 (source.x - target.x) (target.y - source.y)
   in
     (radians * 180) / pi
+
+directionToSun source =
+  directionFromSourceToTarget source { x = -1000, y = 1000 }
 
 addStars game starData =
   let

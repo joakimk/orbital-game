@@ -29,5 +29,5 @@ drawPlanet planet =
   in
     image size size ("textures/" ++ planet.texture ++ ".png")
     |> toForm
-    |> rotate planet.rotation
+    |> rotate (planet.textureRotation + planet.rotation)
     |> move (planet.x, planet.y)
