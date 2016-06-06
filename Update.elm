@@ -51,12 +51,12 @@ applyGravity delta game planet =
   List.foldr (applyGravityToTarget delta) planet game.planets
 
 applyGravityToTarget delta source target =
-  if source == target || (target.vx == 0 && target.vy == 0) then
+  if (source.x == target.x && source.y == target.y) || (target.vx == 0 && target.vy == 0) then
      target
   else
     { target |
-      vx = target.vx + 900000 * ((directionFromSourceToTarget source target) |> degrees |> sin) * delta * source.gravity * (gravityDistance source target),
-      vy = target.vy - 900000 * ((directionFromSourceToTarget source target) |> degrees |> cos) * delta * source.gravity * (gravityDistance source target)
+      vx = target.vx + 7800000 * ((directionFromSourceToTarget source target) |> degrees |> sin) * delta * source.gravity * (gravityDistance source target),
+      vy = target.vy - 7800000 * ((directionFromSourceToTarget source target) |> degrees |> cos) * delta * source.gravity * (gravityDistance source target)
     }
 
 rotatePlanetsTowardSun game =
