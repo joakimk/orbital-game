@@ -28,6 +28,7 @@ type alias Star =
   , y : Float
   , size : Float
   , luminosity : Float
+  , startLuminosity : Float
   , warmth : Float
   }
 

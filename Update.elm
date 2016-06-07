@@ -2,11 +2,14 @@ module Update exposing (..)
 
 import Window
 import Keyboard
+import Random
 
 type Msg = Keypress Keyboard.KeyCode
          | TimeDiffSinceLastFrame Float
+         | TwinkleStar Float
          | WindowResize Window.Size
          | RandomStarData (List ((Float, Float), (Float, Float, Float)))
+         | RandomStarTwinkles (List Float)
 
 update msg game =
   let
@@ -19,6 +22,10 @@ update msg game =
         ({ game | window = size }, Cmd.none)
       TimeDiffSinceLastFrame frameTimeDiff ->
         (updateGameState game frameTimeDiff, Cmd.none)
+      TwinkleStar _ ->
+        (game, Random.generate RandomStarTwinkles (Random.list 300 <| Random.float 0.0 1.4))
+      RandomStarTwinkles list ->
+        (updateStarTwinkles game list, Cmd.none)
       RandomStarData starData ->
         (addStars game starData, Cmd.none)
       _ ->
@@ -95,4 +102,18 @@ addStars game starData =
     { game | stars = stars }
 
 buildStar ((x, y), (size, luminosity, warmth)) =
-  { x = x, y = y, size = size, luminosity = luminosity, warmth = warmth }
+  { x = x, y = y, size = size, luminosity = luminosity, startLuminosity = luminosity, warmth = warmth }
+
+updateStarTwinkles game list =
+  let
+    stars = List.map2 (,) game.stars list
+            |> List.map updateStarTwinkle
+  in
+    { game | stars = stars }
+
+updateStarTwinkle (star, randomValue) =
+  -- only update some of the stars each time
+  if randomValue > 1.33 then
+    { star | luminosity = star.startLuminosity * randomValue * 10 }
+  else
+    { star | luminosity = star.startLuminosity }
