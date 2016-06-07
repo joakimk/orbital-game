@@ -34,6 +34,7 @@ If I get around to it I'd like to...
 * [x] Orient the planets toward the sun at all times so that the textures match
 * [ ] Stable orbital physics. Probably slower orbits, but be able to speed up time to debug.
 * [ ] Merge this into my other game (adds player code, moving perspective, hot code swapping, etc)
+  * [ ] Step1: Copy the star field, make it scroll.
 
 ## Credits
 
