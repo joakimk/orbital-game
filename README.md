@@ -33,10 +33,7 @@ If I get around to it I'd like to...
 * [x] Get orbits to work when more planets have gravity
 * [x] Orient the planets toward the sun at all times so that the textures match
 * [ ] Stable orbital physics. Probably slower orbits, but be able to speed up time to debug.
-* [ ] Set up some kind of hot code swap (options: get reactor to do it, some javascript toolset, phoenix app)
-* [ ] Add some kind of game-play element. The idea was some kind of game where you have to figure out orbital paths when shooting to hit an object.
-* [ ] Rewrite rendering in WebGL to reduce CPU usage
-* [ ] Add a sun
+* [ ] Merge this into my other game (adds player code, moving perspective, hot code swapping, etc)
 
 ## Credits
 
