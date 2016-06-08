@@ -15,7 +15,6 @@ update msg game =
   let
     --x = Debug.log "Game" (toString game)
     --y = Debug.log "Msg" (toString msg)
-    x = 0
   in
     case msg of
       WindowResize size ->
