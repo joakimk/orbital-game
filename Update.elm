@@ -113,7 +113,7 @@ updateStarTwinkles game list =
 
 updateStarTwinkle (star, randomValue) =
   -- only update some of the stars each time
-  if randomValue > 1.33 then
+  if randomValue > 1.37 then
     { star | luminosity = star.startLuminosity * randomValue * 10 }
   else
     { star | luminosity = star.startLuminosity }

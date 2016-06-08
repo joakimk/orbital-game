@@ -39,7 +39,7 @@ subscriptions : a -> Sub Msg
 subscriptions _ =
   [ (Keyboard.presses Keypress)
   , (AnimationFrame.diffs TimeDiffSinceLastFrame)
-  , (Time.every (Time.millisecond * 600) TwinkleStar)
+  , (Time.every (Time.millisecond * 400) TwinkleStar)
   , (Window.resizes WindowResize)
   ]
   |> Sub.batch
