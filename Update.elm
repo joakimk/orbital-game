@@ -12,23 +12,19 @@ type Msg = Keypress Keyboard.KeyCode
          | RandomStarTwinkles (List Float)
 
 update msg game =
-  let
-    --x = Debug.log "Game" (toString game)
-    --y = Debug.log "Msg" (toString msg)
-  in
-    case msg of
-      WindowResize size ->
-        ({ game | window = size }, Cmd.none)
-      TimeDiffSinceLastFrame frameTimeDiff ->
-        (updateGameState game frameTimeDiff, Cmd.none)
-      TwinkleStar _ ->
-        (game, Random.generate RandomStarTwinkles (Random.list 300 <| Random.float 0.0 1.4))
-      RandomStarTwinkles list ->
-        (updateStarTwinkles game list, Cmd.none)
-      RandomStarData starData ->
-        (addStars game starData, Cmd.none)
-      _ ->
-        (game, Cmd.none)
+  case msg of
+    WindowResize size ->
+      ({ game | window = size }, Cmd.none)
+    TimeDiffSinceLastFrame frameTimeDiff ->
+      (updateGameState game frameTimeDiff, Cmd.none)
+    TwinkleStar _ ->
+      (game, Random.generate RandomStarTwinkles (Random.list 300 <| Random.float 0.0 1.4))
+    RandomStarTwinkles list ->
+      (updateStarTwinkles game list, Cmd.none)
+    RandomStarData starData ->
+      (addStars game starData, Cmd.none)
+    _ ->
+      (game, Cmd.none)
 
 updateGameState game frameTimeDiff =
   let
