@@ -1,7 +1,6 @@
 module Main exposing (..)
 
-import Html.App
-import Html exposing (Html)
+import Html
 import Time exposing (Time, inSeconds)
 import Task
 import Random
@@ -16,9 +15,9 @@ import Model exposing (..)
 -- GLUE
 
 
-main : Program Never
+main : Program Never Game Msg
 main =
-    Html.App.program
+    Html.program
         { view = view
         , update = update
         , init = ( initialGame, initialCommand )
@@ -27,7 +26,7 @@ main =
 
 
 initialCommand =
-    [ (Task.perform WindowResize WindowResize (Window.size))
+    [ (Task.perform WindowResize (Window.size))
     , (Random.generate RandomStarData randomIntPairs)
     ]
         |> Cmd.batch
