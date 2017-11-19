@@ -25,9 +25,10 @@ main =
         }
 
 
+initialCommand : Cmd Msg
 initialCommand =
     [ (Task.perform WindowResize (Window.size))
-    , (Random.generate RandomStarData randomIntPairs)
+    , (Random.generate NewRandomStarData randomIntPairs)
     ]
         |> Cmd.batch
 
@@ -50,5 +51,6 @@ subscriptions _ =
         |> Sub.batch
 
 
+fps : Int
 fps =
     60

@@ -12,17 +12,33 @@ initialGame =
         , { x = -350, y = -180, size = 10, vx = 25, vy = -50, gravity = 0.0001, texture = "planet_28", rotation = 0, textureRotation = -1.2 }
         , { x = -320, y = -180, size = 10, vx = 25, vy = -50, gravity = 0.0001, texture = "planet_28", rotation = 0, textureRotation = -1.2 }
         , { x = -300, y = -180, size = 10, vx = 25, vy = -50, gravity = 0.0001, texture = "planet_30", rotation = 0, textureRotation = 3.1 }
-          --, { x = -800,  y = -550,  size = 50, vx = 25,  vy = 50,    gravity = 0.2,    texture = "planet_24", rotation = 0, textureRotation = -1 }
+
+        --, { x = -800,  y = -550,  size = 50, vx = 25,  vy = 50,    gravity = 0.2,    texture = "planet_24", rotation = 0, textureRotation = -1 }
         ]
     , stars = []
     , window = { width = 0, height = 0 }
     }
 
 
+type alias Delta =
+    Float
+
+
+type alias RandomStarData =
+    List ( ( Float, Float ), ( Float, Float, Float ) )
+
+
 type alias Game =
     { planets : List Planet
     , stars : List Star
     , window : Window.Size
+    }
+
+
+type alias Positionable a =
+    { a
+        | x : Float
+        , y : Float
     }
 
 

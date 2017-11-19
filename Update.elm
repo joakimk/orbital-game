@@ -1,8 +1,9 @@
 module Update exposing (..)
 
-import Window
 import Keyboard
+import Model exposing (Delta, Positionable, Game, Planet, RandomStarData)
 import Random
+import Window
 
 
 type Msg
@@ -10,10 +11,11 @@ type Msg
     | TimeDiffSinceLastFrame Float
     | TwinkleStar Float
     | WindowResize Window.Size
-    | RandomStarData (List ( ( Float, Float ), ( Float, Float, Float ) ))
+    | NewRandomStarData RandomStarData
     | RandomStarTwinkles (List Float)
 
 
+update : Msg -> Game -> ( Game, Cmd Msg )
 update msg game =
     case msg of
         WindowResize size ->
@@ -28,13 +30,14 @@ update msg game =
         RandomStarTwinkles list ->
             ( updateStarTwinkles game list, Cmd.none )
 
-        RandomStarData starData ->
+        NewRandomStarData starData ->
             ( addStars game starData, Cmd.none )
 
         _ ->
             ( game, Cmd.none )
 
 
+updateGameState : Game -> Delta -> Game
 updateGameState game frameTimeDiff =
     let
         delta =
@@ -46,6 +49,7 @@ updateGameState game frameTimeDiff =
             |> rotatePlanetsTowardSun
 
 
+applyVelocityToPlanets : Delta -> Game -> Game
 applyVelocityToPlanets delta game =
     let
         planets =
@@ -58,6 +62,7 @@ applyVelocityToPlanets delta game =
         { game | planets = planets }
 
 
+applyGravityToPlanets : Delta -> Game -> Game
 applyGravityToPlanets delta game =
     let
         planets =
@@ -66,10 +71,12 @@ applyGravityToPlanets delta game =
         { game | planets = planets }
 
 
+applyGravity : Delta -> Game -> Planet -> Planet
 applyGravity delta game planet =
     List.foldr (applyGravityToTarget delta) planet game.planets
 
 
+applyGravityToTarget : Delta -> Planet -> Planet -> Planet
 applyGravityToTarget delta source target =
     if (source.x == target.x && source.y == target.y) || (target.x == 0 && target.y == 0) then
         target
@@ -80,6 +87,7 @@ applyGravityToTarget delta source target =
         }
 
 
+rotatePlanetsTowardSun : Game -> Game
 rotatePlanetsTowardSun game =
     let
         planets =
@@ -88,10 +96,12 @@ rotatePlanetsTowardSun game =
         { game | planets = planets }
 
 
+rotatePlanetTowardSun : Game -> Planet -> Planet
 rotatePlanetTowardSun game planet =
     { planet | rotation = (directionToSun planet |> degrees) }
 
 
+gravityDistance : Planet -> Planet -> Float
 gravityDistance source target =
     let
         xd =
@@ -109,6 +119,7 @@ gravityDistance source target =
             1 / (distance * distance)
 
 
+directionFromSourceToTarget : Positionable a -> Positionable b -> Float
 directionFromSourceToTarget source target =
     let
         radians =
@@ -117,10 +128,12 @@ directionFromSourceToTarget source target =
         (radians * 180) / pi
 
 
+directionToSun : Planet -> Float
 directionToSun source =
     directionFromSourceToTarget source { x = -1000, y = 1000 }
 
 
+addStars : Game -> RandomStarData -> Game
 addStars game starData =
     let
         stars =
