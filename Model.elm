@@ -25,7 +25,7 @@ type alias Delta =
 
 
 type alias RandomStarData =
-    List ( ( Float, Float ), ( Float, Float, Float ) )
+    ( ( Float, Float ), ( Float, Float, Float ) )
 
 
 type alias Game =

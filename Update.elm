@@ -1,7 +1,7 @@
 module Update exposing (..)
 
 import Keyboard
-import Model exposing (Delta, Positionable, Game, Planet, RandomStarData)
+import Model exposing (Delta, Positionable, Game, Planet, Star, RandomStarData)
 import Random
 import Window
 
@@ -11,7 +11,7 @@ type Msg
     | TimeDiffSinceLastFrame Float
     | TwinkleStar Float
     | WindowResize Window.Size
-    | NewRandomStarData RandomStarData
+    | NewRandomStarData (List RandomStarData)
     | RandomStarTwinkles (List Float)
 
 
@@ -101,7 +101,7 @@ rotatePlanetTowardSun game planet =
     { planet | rotation = (directionToSun planet |> degrees) }
 
 
-gravityDistance : Planet -> Planet -> Float
+gravityDistance : Positionable a -> Positionable b -> Float
 gravityDistance source target =
     let
         xd =
@@ -128,12 +128,12 @@ directionFromSourceToTarget source target =
         (radians * 180) / pi
 
 
-directionToSun : Planet -> Float
+directionToSun : Positionable a -> Float
 directionToSun source =
     directionFromSourceToTarget source { x = -1000, y = 1000 }
 
 
-addStars : Game -> RandomStarData -> Game
+addStars : Game -> List RandomStarData -> Game
 addStars game starData =
     let
         stars =
@@ -142,10 +142,12 @@ addStars game starData =
         { game | stars = stars }
 
 
+buildStar : RandomStarData -> Star
 buildStar ( ( x, y ), ( size, luminosity, warmth ) ) =
     { x = x, y = y, size = size, luminosity = luminosity, startLuminosity = luminosity, warmth = warmth }
 
 
+updateStarTwinkles : Game -> List Float -> Game
 updateStarTwinkles game list =
     let
         stars =
@@ -155,6 +157,7 @@ updateStarTwinkles game list =
         { game | stars = stars }
 
 
+updateStarTwinkle : ( Star, Float ) -> Star
 updateStarTwinkle ( star, randomValue ) =
     -- only update some of the stars each time
     if randomValue > 1.37 then
