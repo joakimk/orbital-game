@@ -33,7 +33,7 @@ initialCommand =
         |> Cmd.batch
 
 
-randomIntPairs : Random.Generator (List ( ( Float, Float ), ( Float, Float, Float ) ))
+randomIntPairs : Random.Generator (List RandomStarData)
 randomIntPairs =
     Random.list 300 <|
         Random.pair

@@ -1,8 +1,10 @@
 module Move exposing (moveTopLeft)
 
-import Collage exposing (move)
+import Collage exposing (Form, move)
+import Window
 
 
+moveTopLeft : Window.Size -> ( Float, Float ) -> Form -> Form
 moveTopLeft window ( x, y ) form =
     let
         windowX =

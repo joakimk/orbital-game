@@ -1,16 +1,19 @@
 module Star exposing (drawStars)
 
-import Collage exposing (oval, filled, group)
+import Collage exposing (Form, oval, filled, group)
 import Color exposing (rgb)
 import Move exposing (moveTopLeft)
-import LazyForm exposing (lazyForm)
+import Window
+import Model exposing (Star)
 
 
+drawStars : ( Window.Size, List Star ) -> Form
 drawStars ( window, stars ) =
     List.map (drawStar window) stars
         |> group
 
 
+drawStar : Window.Size -> Star -> Form
 drawStar window star =
     let
         scalingFactorX =
@@ -34,6 +37,7 @@ drawStar window star =
 -- What I tried to do here was to have warm stars be blue, and less warm stars only more red to get a good mix of both
 
 
+blueStarColor : Star -> Int -> Int
 blueStarColor star baseColor =
     if star.warmth < 0.5 then
         baseColor
@@ -41,6 +45,7 @@ blueStarColor star baseColor =
         max ((toFloat baseColor) + (star.warmth * (toFloat 50))) (toFloat 255) |> floor
 
 
+redStarColor : Star -> Int -> Int
 redStarColor star baseColor =
     if star.warmth > 0.5 then
         baseColor

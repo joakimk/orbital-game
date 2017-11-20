@@ -9,5 +9,6 @@ module LazyForm exposing (lazyForm)
 import Native.LazyForm
 
 
+lazyForm : a -> b -> c
 lazyForm renderCallback data =
     Native.LazyForm.lazy ( renderCallback, data )
